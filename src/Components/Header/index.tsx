@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Container, Content } from './styles';
 
-export function Header() {
+export function Header(): JSX.Element {
   return (
     <Container>
       <Content>
-        <button>Add employee</button>
+        <button type="submit">Add employee</button>
       </Content>
     </Container>
   );

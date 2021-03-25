@@ -5,13 +5,13 @@ export const GlobalStyle = createGlobalStyle`
     --background: #f0f2f5;
     --red: #e52e4d;
     --blue: #17adc6;
-    --green: #33cc95;
+    --green: #52F54E;
     --blue-light: #8cecde;
     --text-title: #333f48;
     --text-body: #969cb3;
-    --shape: #ffffff;
+    --shape: #d0ebeb;
   }
-  
+
   * {
     margin: 0;
     padding: 0;

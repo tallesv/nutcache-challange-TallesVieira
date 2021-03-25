@@ -1,9 +1,12 @@
 import React from 'react';
+import { EmployeeTable } from '../../Components/EmployeeTable';
 import { Header } from '../../Components/Header';
 
-export function Dashboard() {
+export function Dashboard(): JSX.Element {
   return (
-    <Header />
-
+    <>
+      <Header />
+      <EmployeeTable />
+    </>
   );
 }
