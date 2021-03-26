@@ -2,11 +2,17 @@ import React from 'react';
 
 import { Container, Content } from './styles';
 
-export function Header(): JSX.Element {
+interface HeaderProps {
+  onOpenAddEmployeeModal: () => void;
+}
+
+export function Header({ onOpenAddEmployeeModal }: HeaderProps): JSX.Element {
   return (
     <Container>
       <Content>
-        <button type="submit">Add employee</button>
+        <button type="submit" onClick={onOpenAddEmployeeModal}>
+          Add employee
+        </button>
       </Content>
     </Container>
   );

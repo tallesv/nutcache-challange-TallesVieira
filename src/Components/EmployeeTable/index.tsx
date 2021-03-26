@@ -1,7 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { api } from '../../services/api';
 import { Container } from './styles';
 
+interface Employee {
+  _id: string;
+  name: string;
+  birthDate: Date;
+  gender: string;
+  email: string;
+  cpf: string;
+  startDate: Date;
+  team: string;
+}
+
 export function EmployeeTable(): JSX.Element {
+  const [employees, setEmployees] = useState<Employee[]>([]);
+
+  useEffect(() => {
+    api.get('/nutemployee').then(response => setEmployees(response.data));
+  }, []);
+
   return (
     <Container>
       <table>
@@ -19,33 +37,21 @@ export function EmployeeTable(): JSX.Element {
         </thead>
 
         <tbody>
-          <tr>
-            <td>Talles</td>
-            <td>20/02/2000</td>
-            <td>Masculino</td>
-            <td>talles@mail.com</td>
-            <td>70788594486</td>
-            <td>20/02/2020</td>
-            <td>Front end</td>
-            <td>
-              <button type="button">Edit</button>
-              <button type="button">Delete</button>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Talles</td>
-            <td>20/02/2000</td>
-            <td>Masculino</td>
-            <td>talles@mail.com</td>
-            <td>70788594486</td>
-            <td>20/02/2020</td>
-            <td>Front end</td>
-            <td className="options">
-              <button type="button">Edit</button>
-              <button type="button">Delete</button>
-            </td>
-          </tr>
+          {employees.map(employee => (
+            <tr key={employee._id}>
+              <td>{employee.name}</td>
+              <td>{employee.birthDate}</td>
+              <td>{employee.gender}</td>
+              <td>{employee.email}</td>
+              <td>{employee.cpf}</td>
+              <td>{employee.startDate}</td>
+              <td>{employee.team}</td>
+              <td>
+                <button type="button">Edit</button>
+                <button type="button">Delete</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </Container>
