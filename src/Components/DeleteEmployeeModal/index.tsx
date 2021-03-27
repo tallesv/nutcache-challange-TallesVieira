@@ -37,7 +37,7 @@ export function DeleteEmployeeModal({
         <img src={closeImg} alt="Fechar modal" />
       </button>
       <Container>
-        <h2>Delete</h2>
+        <h2>Delete Employee</h2>
 
         <span>
           Are you sure you want to delete <b>{employee.name}</b> from the table
