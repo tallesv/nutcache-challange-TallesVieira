@@ -13,7 +13,13 @@ interface Employee {
   team: string;
 }
 
-export function EmployeeTable(): JSX.Element {
+interface EmployeeTableProps {
+  onDeleteEmployee: (employee: Employee) => void;
+}
+
+export function EmployeeTable({
+  onDeleteEmployee,
+}: EmployeeTableProps): JSX.Element {
   const [employees, setEmployees] = useState<Employee[]>([]);
 
   useEffect(() => {
@@ -48,7 +54,12 @@ export function EmployeeTable(): JSX.Element {
               <td>{employee.team}</td>
               <td>
                 <button type="button">Edit</button>
-                <button type="button">Delete</button>
+                <button
+                  type="button"
+                  onClick={() => onDeleteEmployee(employee)}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
