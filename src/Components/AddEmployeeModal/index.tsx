@@ -1,4 +1,10 @@
-import { FormEvent, useState } from 'react';
+import {
+  FormEvent,
+  FormEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 
@@ -35,13 +41,28 @@ export function AddEmployeeModal({
     email: '',
     cpf: '',
     startDate: undefined,
-    team: '-',
+    team: '',
   });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function handleSubmit(formData: FormEvent) {
     formData.preventDefault();
+    setEmptyFields([]);
 
-    await api.post('/nutemployee', fields);
+    // Object.entries(fields).forEach(fieldEntry => {
+    //  if (fieldEntry[1] === '' || fieldEntry[1] === undefined) {
+    //    const updateEmptyFields = emptyFields;
+    //    updateEmptyFields.push(fieldEntry[0]);
+    //    setEmptyFields(updateEmptyFields);
+    //  } else {
+    //    const updateEmptyFields = emptyFields.filter(
+    //      emptyField => emptyField !== fieldEntry[0],
+    //    );
+    //    setEmptyFields(updateEmptyFields);
+    //  }
+    // });
+
+    api.post('/nutemployee', fields);
     onRequestClose();
   }
 
@@ -61,36 +82,38 @@ export function AddEmployeeModal({
       </button>
       <Container onSubmit={handleSubmit}>
         <h2>Add employee</h2>
-
         <input
-          placeholder="Employee name"
+          placeholder="* Employee name"
           name="name"
           value={fields.name}
           onChange={e => setFields({ ...fields, name: e.target.value })}
         />
-        <span>Error</span>
+        {emptyFields.includes('name') && <span>Error</span>}
         <DatePicker
           className="datePicker"
           selected={fields.birthDate}
           onChange={(date: Date) => setFields({ ...fields, birthDate: date })}
-          placeholderText="Birth Date"
+          placeholderText="* Birth Date"
         />
         <select
           name="gender"
           value={fields.gender}
           onChange={e => setFields({ ...fields, gender: e.target.value })}
         >
+          <option value="" disabled>
+            * Gender
+          </option>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
         <input
-          placeholder="Email"
+          placeholder="* Email"
           name="email"
           value={fields.email}
           onChange={e => setFields({ ...fields, email: e.target.value })}
         />
         <input
-          placeholder="CPF"
+          placeholder="* CPF"
           name="cpf"
           value={fields.cpf}
           onChange={e => setFields({ ...fields, cpf: e.target.value })}
@@ -99,13 +122,13 @@ export function AddEmployeeModal({
           className="datePicker"
           selected={fields.startDate}
           onChange={(date: Date) => setFields({ ...fields, startDate: date })}
-          placeholderText="Start Date"
+          placeholderText="* Start Date"
         />
         <select
           value={fields.team}
           onChange={e => setFields({ ...fields, team: e.target.value })}
         >
-          <option value="-">-</option>
+          <option value="">Team</option>
           <option value="mobile">Mobile</option>
           <option value="frontend">Frontend</option>
           <option value="backend">Backend</option>

@@ -1,18 +1,37 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { AddEmployeeModal } from '../../Components/AddEmployeeModal';
 import { DeleteEmployeeModal } from '../../Components/DeleteEmployeeModal';
 import { EditEmployeeModal } from '../../Components/EditEmployeeModal';
 import { EmployeeTable } from '../../Components/EmployeeTable';
 import { Header } from '../../Components/Header';
-import { Employee } from '../../redux/modules/employees/type';
+import { TeamsCard } from '../../Components/TeamsCard';
+import { api } from '../../services/api';
+
+interface Employee {
+  _id: string;
+  name: string;
+  birthDate: Date;
+  gender: string;
+  email: string;
+  cpf: string;
+  startDate: Date;
+  team: string;
+}
 
 export function Dashboard(): JSX.Element {
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [teamsData, setTeamsData] = useState({
+    total: 0,
+    mobile: 0,
+    frontend: 0,
+    backend: 0,
+  });
+
   const [isAddEmployeeModalOpen, setIsAddEmployeeModalOpen] = useState(false);
   const [isDeleteEmployeeModalOpen, setIsDeleteEmployeeModalOpen] = useState(
     false,
   );
   const [isEditEmployeeModalOpen, setIsEditEmployeeModalOpen] = useState(false);
-  const [updateEmployeeTable, setUpdateEmployeeTable] = useState(false);
 
   const [employeeToDelete, setEmployeeToDelete] = useState<Employee>(
     {} as Employee,
@@ -21,39 +40,60 @@ export function Dashboard(): JSX.Element {
     {} as Employee,
   );
 
+  function loadEmployees() {
+    api.get('/nutemployee').then(response => {
+      const employeesFromApi = response.data as Employee[];
+      setEmployees(employeesFromApi);
+      setTeamsData({
+        total: employeesFromApi.length,
+        mobile: employeesFromApi.filter(employee => employee.team === 'mobile')
+          .length,
+        frontend: employeesFromApi.filter(
+          employee => employee.team === 'frontend',
+        ).length,
+        backend: employeesFromApi.filter(
+          employee => employee.team === 'backend',
+        ).length,
+      });
+    });
+  }
+
   function handleOpenAddEmployeeModal() {
     setIsAddEmployeeModalOpen(true);
   }
 
-  function handleCloseAddEmployeeModal() {
+  const handleCloseAddEmployeeModal = useCallback(() => {
     setIsAddEmployeeModalOpen(false);
-    setUpdateEmployeeTable(!updateEmployeeTable);
-  }
+    loadEmployees();
+  }, []);
 
   function handleEditEmployee(emplopyee: Employee) {
     setEmployeeToEdit(emplopyee);
     setIsEditEmployeeModalOpen(true);
   }
 
-  function handleCloseEditEmployeeModal() {
+  const handleCloseEditEmployeeModal = useCallback(() => {
     setIsEditEmployeeModalOpen(false);
-    setUpdateEmployeeTable(!updateEmployeeTable);
-  }
+    loadEmployees();
+  }, []);
 
   function handleDeleteEmployee(emplopyee: Employee) {
     setEmployeeToDelete(emplopyee);
     setIsDeleteEmployeeModalOpen(true);
   }
 
-  function handleCloseDeleteEmployeeModal() {
+  const handleCloseDeleteEmployeeModal = useCallback(() => {
     setIsDeleteEmployeeModalOpen(false);
-    setUpdateEmployeeTable(!updateEmployeeTable);
-  }
+    loadEmployees();
+  }, []);
+
+  useEffect(() => {
+    loadEmployees();
+  }, []);
 
   return (
     <>
       <Header onOpenAddEmployeeModal={handleOpenAddEmployeeModal} />
-
       <AddEmployeeModal
         isOpen={isAddEmployeeModalOpen}
         onRequestClose={handleCloseAddEmployeeModal}
@@ -71,10 +111,17 @@ export function Dashboard(): JSX.Element {
         onRequestClose={handleCloseDeleteEmployeeModal}
       />
 
+      <TeamsCard
+        totalEmployees={teamsData.total}
+        mobileEmployees={teamsData.mobile}
+        frontendEmployees={teamsData.frontend}
+        backendEmployees={teamsData.backend}
+      />
+
       <EmployeeTable
+        employees={employees}
         onDeleteEmployee={employee => handleDeleteEmployee(employee)}
         onEditEmployee={employee => handleEditEmployee(employee)}
-        onUpdateTable={updateEmployeeTable}
       />
     </>
   );

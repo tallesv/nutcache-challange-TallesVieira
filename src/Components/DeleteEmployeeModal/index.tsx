@@ -2,10 +2,19 @@ import React from 'react';
 import Modal from 'react-modal';
 
 import closeImg from '../../assets/close.svg';
-import { Employee } from '../../redux/modules/employees/type';
 import { api } from '../../services/api';
 import { Container } from './styles';
 
+interface Employee {
+  _id: string;
+  name: string;
+  birthDate: Date;
+  gender: string;
+  email: string;
+  cpf: string;
+  startDate: Date;
+  team: string;
+}
 interface RemoveEmployeeProps {
   employee: Employee;
   isOpen: boolean;

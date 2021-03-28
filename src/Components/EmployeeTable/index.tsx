@@ -14,22 +14,16 @@ interface Employee {
 }
 
 interface EmployeeTableProps {
-  onUpdateTable: boolean;
+  employees: Employee[];
   onEditEmployee: (employee: Employee) => void;
   onDeleteEmployee: (employee: Employee) => void;
 }
 
 export function EmployeeTable({
-  onUpdateTable,
+  employees,
   onEditEmployee,
   onDeleteEmployee,
 }: EmployeeTableProps): JSX.Element {
-  const [employees, setEmployees] = useState<Employee[]>([]);
-
-  useEffect(() => {
-    api.get('/nutemployee').then(response => setEmployees(response.data));
-  }, [onUpdateTable]);
-
   return (
     <Container>
       <table>

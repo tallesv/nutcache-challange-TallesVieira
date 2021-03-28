@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: `https://crudcrud.com/api/4c8dfd64e63c4fa697db668c7e1bb1ff`,
+  baseURL: `https://crudcrud.com/api/${process.env.REACT_APP_CRUDCRUD_TOKEN}`,
 });

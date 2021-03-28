@@ -7,8 +7,17 @@ import closeImg from '../../assets/close.svg';
 import { Container } from './styles';
 import { api } from '../../services/api';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Employee } from '../../redux/modules/employees/type';
 
+interface Employee {
+  _id: string;
+  name: string;
+  birthDate: Date;
+  gender: string;
+  email: string;
+  cpf: string;
+  startDate: Date;
+  team: string;
+}
 interface EditEmployeeProps {
   employee: Employee;
   isOpen: boolean;
