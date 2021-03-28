@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { api } from '../../services/api';
+import React from 'react';
 import { Container } from './styles';
 
 interface Employee {
@@ -44,11 +43,19 @@ export function EmployeeTable({
           {employees.map(employee => (
             <tr key={employee._id}>
               <td>{employee.name}</td>
-              <td>{employee.birthDate}</td>
+              <td>
+                {new Intl.DateTimeFormat('pt-BR').format(
+                  new Date(employee.birthDate),
+                )}
+              </td>
               <td>{employee.gender}</td>
               <td>{employee.email}</td>
               <td>{employee.cpf}</td>
-              <td>{employee.startDate}</td>
+              <td>
+                {new Intl.DateTimeFormat('pt-BR')
+                  .format(new Date(employee.startDate))
+                  .slice(3)}
+              </td>
               <td>{employee.team}</td>
               <td>
                 <button type="button" onClick={() => onEditEmployee(employee)}>

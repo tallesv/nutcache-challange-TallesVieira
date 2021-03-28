@@ -94,7 +94,6 @@ export function EditEmployeeModal({
         />
         <span>Error</span>
         <DatePicker
-          className="datePicker"
           selected={fields.birthDate}
           onChange={(date: Date) => setFields({ ...fields, birthDate: date })}
           placeholderText="Birth Date"
@@ -120,10 +119,11 @@ export function EditEmployeeModal({
           onChange={e => setFields({ ...fields, cpf: e.target.value })}
         />
         <DatePicker
-          className="datePicker"
           selected={fields.startDate}
           onChange={(date: Date) => setFields({ ...fields, startDate: date })}
           placeholderText="Start Date"
+          dateFormat="MM/yyyy"
+          showMonthYearPicker
         />
         <select
           value={fields.team}

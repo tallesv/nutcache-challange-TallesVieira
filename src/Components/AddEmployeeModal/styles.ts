@@ -48,7 +48,7 @@ export const Container = styled.form`
     }
   }
 
-  button {
+  button:last-child {
     width: 100%;
     font-size: 1rem;
     color: var(--white);
