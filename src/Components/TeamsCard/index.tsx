@@ -29,7 +29,7 @@ export function TeamsCard({
           <AiOutlinePieChart />
         </div>
 
-        <div>{totalEmployees}</div>
+        <div data-testid="totalValue">{totalEmployees}</div>
       </Card>
 
       <Card>
@@ -38,7 +38,7 @@ export function TeamsCard({
           <AiOutlineMobile />
         </div>
 
-        <div>{mobileEmployees}</div>
+        <div data-testid="mobileValue">{mobileEmployees}</div>
       </Card>
 
       <Card>
@@ -47,7 +47,7 @@ export function TeamsCard({
           <AiOutlineDesktop />
         </div>
 
-        <div>{frontendEmployees}</div>
+        <div data-testid="frontendValue">{frontendEmployees}</div>
       </Card>
 
       <Card>
@@ -56,7 +56,7 @@ export function TeamsCard({
           <AiOutlineDatabase />
         </div>
 
-        <div>{backendEmployees}</div>
+        <div data-testid="backendValue">{backendEmployees}</div>
       </Card>
     </Container>
   );
