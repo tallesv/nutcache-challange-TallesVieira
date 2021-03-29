@@ -6,17 +6,7 @@ import { EmployeeTable } from '../../Components/EmployeeTable';
 import { Header } from '../../Components/Header';
 import { TeamsCard } from '../../Components/TeamsCard';
 import { api } from '../../services/api';
-
-interface Employee {
-  _id: string;
-  name: string;
-  birthDate: Date;
-  gender: string;
-  email: string;
-  cpf: string;
-  startDate: Date;
-  team: string;
-}
+import { Employee } from '../../types/Employee';
 
 export function Dashboard(): JSX.Element {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -93,7 +83,15 @@ export function Dashboard(): JSX.Element {
 
   return (
     <>
-      <Header onOpenAddEmployeeModal={handleOpenAddEmployeeModal} />
+      <Header
+        onOpenAddEmployeeModal={handleOpenAddEmployeeModal}
+        onOpenEditPreviouslyRegistredEmployee={() =>
+          handleEditEmployee(employees[employees.length - 1])
+        }
+        onOpenDeletePreviouslyRegistredEmployee={() =>
+          handleDeleteEmployee(employees[employees.length - 1])
+        }
+      />
       <AddEmployeeModal
         isOpen={isAddEmployeeModalOpen}
         onRequestClose={handleCloseAddEmployeeModal}
