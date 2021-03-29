@@ -50,11 +50,36 @@ export function EditEmployeeModal({
     team: '-',
   });
 
+  function validation() {
+    setEmptyFields([]);
+    const errors: string[] = [];
+
+    Object.entries(fields).forEach(fieldEntry => {
+      if (
+        (fieldEntry[0] !== 'team' && fieldEntry[1] === '') ||
+        fieldEntry[1] === undefined ||
+        fieldEntry[1] === null
+      ) {
+        errors.push(fieldEntry[0]);
+      }
+    });
+
+    setEmptyFields(errors);
+    return errors.length === 0;
+  }
+
+  function handleCloseForm() {
+    setEmptyFields([]);
+    onRequestClose();
+  }
+
   async function handleSubmit(formData: FormEvent) {
     formData.preventDefault();
 
-    await api.put(`/nutemployee/${employee._id}`, fields);
-    onRequestClose();
+    if (validation()) {
+      await api.put(`/nutemployee/${employee._id}`, fields);
+      handleCloseForm();
+    }
   }
 
   useEffect(() => {
@@ -72,7 +97,7 @@ export function EditEmployeeModal({
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={onRequestClose}
+      onRequestClose={handleCloseForm}
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
     >
@@ -92,12 +117,15 @@ export function EditEmployeeModal({
           value={fields.name}
           onChange={e => setFields({ ...fields, name: e.target.value })}
         />
-        <span>Error</span>
+        {emptyFields.includes('name') && <span>Name input is required!</span>}
         <DatePicker
           selected={fields.birthDate}
           onChange={(date: Date) => setFields({ ...fields, birthDate: date })}
           placeholderText="Birth Date"
         />
+        {emptyFields.includes('birthDate') && (
+          <span>Birth Date input is required!</span>
+        )}
         <select
           name="gender"
           value={fields.gender}
@@ -106,18 +134,23 @@ export function EditEmployeeModal({
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
+        {emptyFields.includes('gender') && (
+          <span>Gender input is required!</span>
+        )}
         <input
           placeholder="Email"
           name="email"
           value={fields.email}
           onChange={e => setFields({ ...fields, email: e.target.value })}
         />
+        {emptyFields.includes('email') && <span>Email input is required!</span>}
         <input
           placeholder="CPF"
           name="cpf"
           value={fields.cpf}
           onChange={e => setFields({ ...fields, cpf: e.target.value })}
         />
+        {emptyFields.includes('cpf') && <span>CPF input is required!</span>}
         <DatePicker
           selected={fields.startDate}
           onChange={(date: Date) => setFields({ ...fields, startDate: date })}
@@ -125,6 +158,9 @@ export function EditEmployeeModal({
           dateFormat="MM/yyyy"
           showMonthYearPicker
         />
+        {emptyFields.includes('startDate') && (
+          <span>Start Date input is required!</span>
+        )}
         <select
           value={fields.team}
           onChange={e => setFields({ ...fields, team: e.target.value })}

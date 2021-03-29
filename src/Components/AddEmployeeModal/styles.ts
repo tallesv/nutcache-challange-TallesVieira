@@ -10,13 +10,14 @@ export const Container = styled.form`
     width: 100%;
     height: 3rem;
     padding: 0 1rem;
+    margin-top: 1rem;
     border-radius: 0.25;
     background: var(--grey);
 
     border: 1px solid #d7d7d7;
 
-    & + input {
-      margin-top: 1rem;
+    &:first-child {
+      margin-top: 0;
     }
   }
 
@@ -25,7 +26,6 @@ export const Container = styled.form`
     padding: 0 1rem;
     color: var(--red);
     display: inline-block;
-    margin-top: 0.5rem;
   }
 
   .react-datepicker-wrapper {
@@ -36,7 +36,7 @@ export const Container = styled.form`
   select {
     width: 100%;
     height: 3rem;
-    margin: 1rem 0;
+    margin-top: 1rem;
     padding: 0 1rem;
     background: var(--grey);
 
@@ -55,6 +55,7 @@ export const Container = styled.form`
     background: var(--green);
     border: 0;
     padding: 0 2rem;
+    margin-top: 1rem;
     border-radius: 0.25rem;
     height: 3rem;
 
