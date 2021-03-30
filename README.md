@@ -18,6 +18,10 @@ Na descrição do desafio pedia-se para evitar o uso de biliotecas externas, com
 - [esltint](https://eslint.org/)
 - [prettier](https://prettier.io/)
 
+### Backend
+
+O backend da aplicação está disponível neste repositório: https://github.com/tallesv/nutcache-challenge-backend
+
 ### 🎲 Excutando a aplicação
 
 ```bash
