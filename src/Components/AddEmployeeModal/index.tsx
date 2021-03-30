@@ -51,7 +51,6 @@ export function AddEmployeeModal({
         errors.push(fieldEntry[0]);
       }
     });
-
     setEmptyFields(errors);
     return errors.length === 0;
   }

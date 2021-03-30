@@ -1,10 +1,16 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import mockAxios from 'jest-mock-axios';
 import { DeleteEmployeeModal } from '../../Components/DeleteEmployeeModal';
 
 const mockedOnRequestClose = jest.fn();
 
 describe('DeleteEmployeeModal Component', () => {
+  afterEach(() => {
+    // cleaning up the mess left behind the previous test
+    mockAxios.reset();
+  });
+
   const fakeEmployee = {
     _id: '1',
     name: 'Jon Doe',
@@ -27,5 +33,24 @@ describe('DeleteEmployeeModal Component', () => {
     const closeModalButton = getByTestId('closeModalButton');
     fireEvent.click(closeModalButton);
     expect(mockedOnRequestClose).toHaveBeenCalled();
+  });
+
+  it('shoul be able to delete employee', async () => {
+    const { getByText } = render(
+      <DeleteEmployeeModal
+        employee={fakeEmployee}
+        isOpen
+        onRequestClose={mockedOnRequestClose}
+      />,
+    );
+
+    const deleteEmployeeButton = getByText('Delete');
+    fireEvent.click(deleteEmployeeButton);
+
+    await waitFor(() => {
+      expect(mockAxios.delete).toHaveBeenCalledWith(
+        `/nutemployee/${fakeEmployee._id}`,
+      );
+    });
   });
 });

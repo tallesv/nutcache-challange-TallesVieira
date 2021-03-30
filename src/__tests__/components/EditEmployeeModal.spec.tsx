@@ -1,5 +1,6 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import mockAxios from 'jest-mock-axios';
 import { EditEmployeeModal } from '../../Components/EditEmployeeModal';
 
 const mockedOnRequestClose = jest.fn();
@@ -55,5 +56,52 @@ describe('EditEmployeeModal Component', () => {
     expect(getByText('Gender input is required!')).toBeInTheDocument();
     expect(getByText('Email input is required!')).toBeInTheDocument();
     expect(getByText('CPF input is required!')).toBeInTheDocument();
+  });
+
+  it('should be able to edit a employee', async () => {
+    const { getByPlaceholderText, getByTestId, getByText } = render(
+      <EditEmployeeModal
+        employee={fakeEmployee}
+        isOpen
+        onRequestClose={mockedOnRequestClose}
+      />,
+    );
+
+    const nameInput = getByPlaceholderText('* Employee name');
+    const birthDateInput = getByPlaceholderText('* Birth Date');
+    const genderInput = getByTestId('gender');
+    const emailInput = getByPlaceholderText('* Email');
+    const cpfInput = getByPlaceholderText('* CPF');
+    const startDateInput = getByPlaceholderText('* Start Date');
+
+    const editEmployeeButton = getByText('Edit');
+
+    fireEvent.change(nameInput, { target: { value: 'John Doe 2' } });
+    fireEvent.change(birthDateInput, {
+      target: { value: '2013-03-01T01:10:00' },
+    });
+    fireEvent.change(genderInput, { target: { value: 'male' } });
+    fireEvent.change(emailInput, { target: { value: 'johndoe2@mail.com' } });
+    fireEvent.change(cpfInput, { target: { value: '111.000.222-76' } });
+    fireEvent.change(startDateInput, {
+      target: { value: '2013-03-01T01:10:00' },
+    });
+
+    fireEvent.click(editEmployeeButton);
+
+    await waitFor(() => {
+      expect(mockAxios.put).toHaveBeenCalledWith(
+        `/nutemployee/${fakeEmployee._id}`,
+        {
+          birthDate: new Date('2013-03-01T04:10:00.000Z'),
+          cpf: '111.000.222-76',
+          email: 'johndoe2@mail.com',
+          gender: 'male',
+          name: 'John Doe 2',
+          startDate: new Date('2013-03-01T04:10:00.000Z'),
+          team: 'frontend',
+        },
+      );
+    });
   });
 });
