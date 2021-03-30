@@ -37,9 +37,11 @@ export function DeleteEmployeeModal({
       onRequestClose={onRequestClose}
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
+      ariaHideApp={false}
     >
       <button
         type="button"
+        data-testid="closeModalButton"
         onClick={onRequestClose}
         className="react-modal-close"
       >

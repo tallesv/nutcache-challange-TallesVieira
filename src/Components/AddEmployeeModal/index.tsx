@@ -85,9 +85,11 @@ export function AddEmployeeModal({
       onRequestClose={onRequestClose}
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
+      ariaHideApp={false}
     >
       <button
         type="button"
+        data-testid="closeModalButton"
         onClick={handleCloseForm}
         className="react-modal-close"
       >
@@ -112,6 +114,7 @@ export function AddEmployeeModal({
         )}
         <select
           name="gender"
+          data-testid="gender"
           value={fields.gender}
           onChange={e => setFields({ ...fields, gender: e.target.value })}
         >
@@ -149,6 +152,8 @@ export function AddEmployeeModal({
           <span>Start Date input is required!</span>
         )}
         <select
+          name="team"
+          data-testid="team"
           value={fields.team}
           onChange={e => setFields({ ...fields, team: e.target.value })}
         >

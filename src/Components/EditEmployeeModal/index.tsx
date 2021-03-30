@@ -100,9 +100,11 @@ export function EditEmployeeModal({
       onRequestClose={handleCloseForm}
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
+      ariaHideApp={false}
     >
       <button
         type="button"
+        data-testid="closeModalButton"
         onClick={onRequestClose}
         className="react-modal-close"
       >
@@ -112,7 +114,7 @@ export function EditEmployeeModal({
         <h2>Edit employee</h2>
 
         <input
-          placeholder="Employee name"
+          placeholder="* Employee name"
           name="name"
           value={fields.name}
           onChange={e => setFields({ ...fields, name: e.target.value })}
@@ -121,13 +123,15 @@ export function EditEmployeeModal({
         <DatePicker
           selected={fields.birthDate}
           onChange={(date: Date) => setFields({ ...fields, birthDate: date })}
-          placeholderText="Birth Date"
+          placeholderText="* Birth Date"
+          data-testid="birthDate"
         />
         {emptyFields.includes('birthDate') && (
           <span>Birth Date input is required!</span>
         )}
         <select
           name="gender"
+          data-testid="gender"
           value={fields.gender}
           onChange={e => setFields({ ...fields, gender: e.target.value })}
         >
@@ -138,14 +142,14 @@ export function EditEmployeeModal({
           <span>Gender input is required!</span>
         )}
         <input
-          placeholder="Email"
+          placeholder="* Email"
           name="email"
           value={fields.email}
           onChange={e => setFields({ ...fields, email: e.target.value })}
         />
         {emptyFields.includes('email') && <span>Email input is required!</span>}
         <input
-          placeholder="CPF"
+          placeholder="* CPF"
           name="cpf"
           value={fields.cpf}
           onChange={e => setFields({ ...fields, cpf: e.target.value })}
@@ -154,7 +158,8 @@ export function EditEmployeeModal({
         <DatePicker
           selected={fields.startDate}
           onChange={(date: Date) => setFields({ ...fields, startDate: date })}
-          placeholderText="Start Date"
+          placeholderText="* Start Date"
+          data-testid="startDate"
           dateFormat="MM/yyyy"
           showMonthYearPicker
         />
